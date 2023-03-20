@@ -13,9 +13,8 @@ enum class Weapon {
 int main() {
     // weapon = General;  // Compile error
     weapon = Weapon::General;  // Compile error
-    bool b = (weapon == Weapon::General);
-    cout << "It is" << (b ? "" : " not") << " general" << endl;
+    bool b = !(weapon == Weapon::General);
+    cout << "It is" << (b ? " " : " not ") << "general" << endl;
 
     return 0;
 }
-

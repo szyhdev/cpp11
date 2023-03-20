@@ -1,3 +1,5 @@
+// valgrind --leak-check=full ./bazel-bin/05/02/0509
+
 #include <iostream>
 #include <memory>
 
@@ -21,17 +23,18 @@ int main() {
     cout << *sp1 << endl;
     cout << *sp2 << endl;
     Check(wp);
-    cout << sp1.use_count() << endl;
+    cout << wp.use_count() << endl;
     cout << endl;
 
     sp1.reset();
     cout << *sp2 << endl;
     Check(wp);
+    cout << wp.use_count() << endl;
     cout << endl;
 
     sp2.reset();
     Check(wp);
+    cout << wp.use_count() << endl;
 
     return 0;
 }
-

@@ -4,7 +4,7 @@ using namespace std;
 
 namespace T {
     enum Type {
-        General, Light, Medium, Heavy 
+        General, Light, Medium, Heavy
     };
 }
 
@@ -22,4 +22,3 @@ int main() {
 
     return 0;
 }
-

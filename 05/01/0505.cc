@@ -3,7 +3,7 @@
 using namespace std;
 
 enum class Type {
-    General, Light, Medium, Heavy 
+    General, Light, Medium, Heavy
 };
 
 enum class Category {
@@ -38,4 +38,3 @@ int main() {
 
     return 0;
 }
-
