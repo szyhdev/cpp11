@@ -1,42 +1,109 @@
 #include <iostream>
 
-using namespace std;
-
 #pragma pack(1)
 
-struct B1 {
+struct S1
+{
+public:
+    int a;
+    int b;
 };
 
-struct B2 {
+struct S2
+{
+public:
+    int a;
+private:
+    int b;
 };
 
-struct D1 : B1 {
-    B1 b;
+struct B1
+{
+    static int a;
+};
+
+struct B2
+{
+    int a;
+};
+
+struct D1 : B1
+{
+    int d;
+};
+
+struct D2 : B2
+{
+    static int d;
+};
+
+struct D3 : B1, B2
+{
+    static int d;
+};
+
+struct D4 : B2
+{
+    int d;
+};
+
+struct D5 : B2, D1
+{
+};
+
+struct Base1
+{
+};
+
+struct Base2
+{
+};
+
+struct Derived1 : Base1
+{
+    Base2 b;
     int i;
 };
 
-struct D2 : B1 {
-    B2 b;
+struct Derived2 : Base1
+{
+    Base1 b;
     int i;
 };
 
-#pragma pack ()
+#pragma pack()
 
-int main() {
-    D1 d1;
-    D2 d2;
-    cout << hex;
+int main()
+{
+    // standard_layout: rule 1
+    std::cout << std::boolalpha;
+    std::cout << std::is_standard_layout_v<S1> << ", " <<
+            std::is_standard_layout_v<S2> << std::endl;
 
-    cout << "D1\t" << reinterpret_cast<long long>(&d1) << endl;
-    cout << "D1.b\t" << reinterpret_cast<long long>(&(d1.b)) << endl;
-    cout << "D1.i\t" << reinterpret_cast<long long>(&(d1.i)) << endl;
-    cout << "sizeof(D1) = " << sizeof(d1) << endl;
-    cout << endl;
+    // standard_layout: rule 2
+    std::cout << std::is_standard_layout_v<D1> << ", " <<
+            std::is_standard_layout_v<D2> << ", " <<
+            std::is_standard_layout_v<D3> << ", " <<
+            std::is_standard_layout_v<D4> << ", " <<
+            std::is_standard_layout_v<D5> << std::endl;
 
-    cout << "D2\t" << reinterpret_cast<long long>(&d2) << endl;
-    cout << "D2.b\t" << reinterpret_cast<long long>(&(d2.b)) << endl;
-    cout << "D2.i\t" << reinterpret_cast<long long>(&(d2.i)) << endl;
-    cout << "sizeof(D2) = " << sizeof(d2) << endl;
+    // standard_layout: rule 3
+    std::cout << std::is_standard_layout_v<Derived1> << ", " <<
+            std::is_standard_layout_v<Derived2> << std::endl;
+    std::cout << std::endl;
+
+    Derived1 d1;
+    Derived2 d2;
+    std::cout << std::hex;
+    std::cout << "sizeof(Derived1) = " << sizeof(d1) << std::endl;
+    std::cout << "&d1 = " << reinterpret_cast<long long>(&d1) << std::endl;
+    std::cout << "&(d1.b) = " << reinterpret_cast<long long>(&(d1.b)) << std::endl;
+    std::cout << "&(d1.i) = " << reinterpret_cast<long long>(&(d1.i)) << std::endl;
+    std::cout << std::endl;
+    std::cout << "sizeof(Derived2) = " << sizeof(d2) << std::endl;
+    std::cout << "&d2 = " << reinterpret_cast<long long>(&d2) << std::endl;
+    std::cout << "&(d2.b) = " << reinterpret_cast<long long>(&(d2.b)) << std::endl;
+    std::cout << "&(d2.i) = " << reinterpret_cast<long long>(&(d2.i)) << std::endl;
 
     return 0;
 }

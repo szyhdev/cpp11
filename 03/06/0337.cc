@@ -1,29 +1,36 @@
 #include <iostream>
 #include <type_traits>
 
-using namespace std;
-
-union U {
+union U1
+{
 };
 
-union U1 {
-    U1() {
+union U2
+{
+    U2() {
     }
 };
 
-enum E {
+enum E
+{
 };
 
-typedef double * DA;
+typedef double *DA;
 typedef void (*PF)(int, double);
 
-int main() {
-    cout << is_pod<U>::value << endl;
-    cout << is_pod<U1>::value << endl;
-    cout << is_pod<E>::value << endl;
-    cout << is_pod<int>::value << endl;
-    cout << is_pod<DA>::value << endl;
-    cout << is_pod<PF>::value << endl;
+int main()
+{
+    // POD: user-defined types
+    std::cout << std::boolalpha;
+    std::cout << std::is_pod_v<U1> << ", " <<
+            std::is_pod_v<U2> << ", " <<
+            std::is_pod_v<E> << ", " <<
+            std::is_pod_v<DA> << ", " <<
+            std::is_pod_v<PF> << std::endl;
+
+    // POD: scalar types and array
+    std::cout << std::is_pod_v<int> << ", " <<
+            std::is_pod_v<double []> << std::endl;
 
     return 0;
 }

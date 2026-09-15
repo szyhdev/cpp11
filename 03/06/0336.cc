@@ -1,72 +1,85 @@
 #include <iostream>
 #include <type_traits>
 
-using namespace std;
-
-struct SLayout1 {
+struct SLayout1
+{
 };
 
-struct SLayout2 {
+struct SLayout2
+{
 private:
     int x;
     int y;
 };
 
-struct SLayout3 : SLayout1 {
+struct SLayout3 : SLayout1
+{
     int x;
     int y;
-    void f();
+
+    void f() {
+    };
 };
 
-struct SLayout4 : SLayout1 {
+struct SLayout4 : SLayout1
+{
     int x;
     SLayout1 y;
 };
 
-struct SLayout5 : SLayout1, SLayout3 {
+struct SLayout5 : SLayout1, SLayout2
+{
 };
 
-struct SLayout6 {
+struct SLayout6
+{
     static int y;
 };
 
-struct SLayout7 : SLayout6 {
+struct SLayout7 : SLayout6
+{
     int x;
 };
 
-struct NonSLayout1 : SLayout1 {
+struct NonSLayout1 : SLayout1
+{
     SLayout1 x;
     int i;
 };
 
-struct NonSLayout2 : SLayout2 {
+struct NonSLayout2 : SLayout2
+{
     int z;
 };
 
-struct NonSLayout3 : NonSLayout2 {
+struct NonSLayout3 : NonSLayout2
+{
 };
 
-struct NonSLayout4 {
+struct NonSLayout4
+{
 public:
     int x;
 private:
     int y;
 };
 
-int main() {
-    cout << is_standard_layout<SLayout1>::value << endl;
-    cout << is_standard_layout<SLayout2>::value << endl;
-    cout << is_standard_layout<SLayout3>::value << endl;
-    cout << is_standard_layout<SLayout4>::value << endl;
-    cout << is_standard_layout<SLayout5>::value << endl;  // 0?
-    cout << is_standard_layout<SLayout6>::value << endl;
-    cout << is_standard_layout<SLayout7>::value << endl;
-    cout << endl;
+int main()
+{
+    // standard_layout: examples
+    std::cout << std::boolalpha;
+    std::cout << std::is_standard_layout_v<SLayout1> << ", " <<
+            std::is_standard_layout_v<SLayout2> << ", " <<
+            std::is_standard_layout_v<SLayout3> << ", " <<
+            std::is_standard_layout_v<SLayout4> << ", " <<
+            std::is_standard_layout_v<SLayout5> << ", " <<
+            std::is_standard_layout_v<SLayout6> << ", " <<
+            std::is_standard_layout_v<SLayout7> << std::endl;
 
-    cout << is_standard_layout<NonSLayout1>::value << endl;
-    cout << is_standard_layout<NonSLayout2>::value << endl;
-    cout << is_standard_layout<NonSLayout3>::value << endl;
-    cout << is_standard_layout<NonSLayout4>::value << endl;
+    std::cout << std::is_standard_layout_v<NonSLayout1> << ", " <<
+            std::is_standard_layout_v<NonSLayout2> << ", " <<
+            std::is_standard_layout_v<NonSLayout3> << ", " <<
+            std::is_standard_layout_v<NonSLayout4> << std::endl;
 
     return 0;
 }
